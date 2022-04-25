@@ -30,6 +30,7 @@ public class Manager : MonoBehaviour
     void spawnBox()
     {
         currentBox = Instantiate(Resources.Load<GameObject>("box"));
+        boxCount += 1;
     }
     
     void deleteBox()
@@ -65,17 +66,36 @@ public class Manager : MonoBehaviour
         populateList(12, 12, 6, level3);
     }
 
-    // Update is called once per frame
-    void Update()
+    void fillBoxes()
     {
-        if(Input.GetKeyDown(KeyCode.Return) && currentBox == null)
+        if(level1.Count > 0)
+        {
+            level = 1;
+            tryPutItemInBox();
+        }
+        else if(level2.Count >0)
+        {
+            level = 2;
+        }
+        else if(level3.Count >0)
+        {
+            level = 3;
+        }
+    }
+
+    void tryPutItemInBox()
+    {
+        if(currentBox == null)
         {
             spawnBox();
         }
-        if (Input.GetKeyDown(KeyCode.Backspace) && currentBox != null)
-        {
-            deleteBox();
-        }
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        fillBoxes();
         setText();
     }
 }
