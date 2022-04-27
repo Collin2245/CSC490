@@ -25,6 +25,7 @@ public class Manager : MonoBehaviour
     GameObject displayGameObject;
     Text text;
     int boxCount = 0;
+    int itemsLeftInCurrList;
     int level = 0;
     // Start is called before the first frame update
     void spawnBox()
@@ -56,7 +57,7 @@ public class Manager : MonoBehaviour
 
     void setText()
     {
-        text.text = $"Current level: {level} Boxes on this level: {boxCount}";
+        text.text = $"Current level: {level} Boxes on this level: {boxCount}  items left in list: {itemsLeftInCurrList}";
     }
     void Start()
     {
@@ -71,15 +72,19 @@ public class Manager : MonoBehaviour
         if(level1.Count > 0)
         {
             level = 1;
+            itemsLeftInCurrList = level1.Count;
             tryPutItemInBox();
+            itemsLeftInCurrList = level1.Count;
         }
         else if(level2.Count >0)
         {
             level = 2;
+            itemsLeftInCurrList = level2.Count;
         }
         else if(level3.Count >0)
         {
             level = 3;
+            itemsLeftInCurrList = level3.Count;
         }
     }
 
@@ -89,6 +94,8 @@ public class Manager : MonoBehaviour
         {
             spawnBox();
         }
+        Instantiate(level1[0], currentBox.transform);
+        level1.RemoveAt(0);
         
     }
 
