@@ -73,29 +73,33 @@ public class Manager : MonoBehaviour
         {
             level = 1;
             itemsLeftInCurrList = level1.Count;
-            tryPutItemInBox();
+            tryPutItemInBox(level1);
             itemsLeftInCurrList = level1.Count;
         }
         else if(level2.Count >0)
         {
             level = 2;
             itemsLeftInCurrList = level2.Count;
+            tryPutItemInBox(level2);
+            itemsLeftInCurrList = level2.Count;
         }
         else if(level3.Count >0)
         {
             level = 3;
             itemsLeftInCurrList = level3.Count;
+            tryPutItemInBox(level3);
+            itemsLeftInCurrList = level3.Count;
         }
     }
 
-    void tryPutItemInBox()
+    void tryPutItemInBox(List<GameObject> currList)
     {
         if(currentBox == null)
         {
             spawnBox();
         }
-        Instantiate(level1[0], currentBox.transform);
-        level1.RemoveAt(0);
+        Instantiate(currList[0], currentBox.transform);
+        currList.RemoveAt(0);
         
     }
 
