@@ -57,7 +57,7 @@ public class Manager : MonoBehaviour
 
     void setText()
     {
-        text.text = $"Current level: {level} Boxes on this level: {boxCount}  items left in list: {itemsLeftInCurrList}";
+        text.text = $"Current level: {level} total boxes: {boxCount}  items left in list: {itemsLeftInCurrList}";
     }
     void Start()
     {
@@ -65,6 +65,7 @@ public class Manager : MonoBehaviour
         populateList(2, 6, 2, level1);
         populateList(5, 10, 5, level2);
         populateList(12, 12, 6, level3);
+        InvokeRepeating("RepeatingFunction", 0.1f, 0.6f);
     }
 
     void fillBoxes()
@@ -98,13 +99,31 @@ public class Manager : MonoBehaviour
         {
             spawnBox();
         }
-        Instantiate(currList[0], currentBox.transform);
-        currList.RemoveAt(0);
-        
+        int itemsInBox = currentBox.transform.childCount - 6;
+        if(itemsInBox >= 3)
+        {
+            deleteBox();
+        }
+        else
+        {
+            GameObject temp = Instantiate(currList[0], new Vector3(
+                currentBox.transform.position.x + Random.Range((float)(-GameObject.Find("floor").GetComponent<Transform>().localScale.x / 2.3), (float)(GameObject.Find("floor").GetComponent<Transform>().localScale.x / 2.3)),
+                currentBox.transform.position.y + Random.Range(0, (float)(GameObject.Find("side").GetComponent<Transform>().localScale.y / 2.3)),
+                currentBox.transform.position.z + Random.Range((float)(-GameObject.Find("floor").GetComponent<Transform>().localScale.z / 2.3), (float)(GameObject.Find("floor").GetComponent<Transform>().localScale.z / 2.3))),
+                Quaternion.identity);// Quaternion.Euler(new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f)))
+            temp.transform.SetParent(currentBox.transform);
+            currList.RemoveAt(0);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    void RepeatingFunction()
     {
         fillBoxes();
         setText();
